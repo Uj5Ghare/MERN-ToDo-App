@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  frontend:
+    image: $FRONT_IMG
+    container_name: frontend
+    ports:
+      - $FRONT_PORTS
+    networks:
+      - frontend
+    environment:
+      - app=mern
+    volumes:
+      - frontend:$FRONT_VOL
+    depends_on:
+      - backend
+      - db
+
+  backend:
+    image: $BACK_IMG
+    container_name: backend
+    ports:
+      - $BACK_PORTS
+    networks:
+      - frontend
+      - backend
+    environment:
+      - app=mern
+    volumes:
+      - backend:$BACK_VOL
+    depends_on:
+      - db
+
+  db:
+    image: $DB_IMG
+    container_name: mongo
+    ports:
+      - $DB_PORTS
+    networks:
+      - backend
+    volumes:
+      - db:$DB_VOL
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  frontend:
+  backend:
+  db:
+  
