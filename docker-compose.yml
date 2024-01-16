@@ -1,6 +1,21 @@
 version: "3.8"
 
 services:
+
+  proxy:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - frontend
+    environment:
+      - app=mern
+    depends_on:
+      - frontend
+
   frontend:
     image: $FRONT_IMG
     container_name: frontend
@@ -49,4 +64,3 @@ volumes:
   frontend:
   backend:
   db:
-  
